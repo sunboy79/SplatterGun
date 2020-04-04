@@ -23,16 +23,43 @@ function Push(bunch::Array{Particle,1}, dt::Real, nsteps::Integer)
   end
 end
 
-nparticles = 128
-bunch = Array{Particle,1}(undef, nparticles)
+struct Mesh
+  xaxis::Array{Real}
+  yaxis::Array{Real}
+  zaxis::Array{Real}
+end
 
-@time Init(bunch)
+function Axis(x1::Real, x2::Real, nx::Integer)
+  dx = (x2-x1)/nx
+  xx = zeros(nx+1)
+  for ii=1:nx+1; xx[ii] = x1+dx*(ii-1); end
+  return xx
+end
 
-#println("time = ", 0.0)
-#for part in bunch; println(part.pos); end
+nx = 20; ny = 20; nz = 20
 
-@time Push(bunch, 1.0e-3, 100)
+xaxis = Axis(-5.0,5.0,nx)
+yaxis = Axis(-5.0,5.0,ny)
+zaxis = Axis(-5.0,5.0,nz)
 
-#println("time = ",0.1 )
-#for part in bunch; println(part.pos); end
+mesh = Mesh(xaxis, yaxis, zaxis)
 
+println(mesh)
+
+doParticles = false
+
+if doParticles
+  nparticles = 1024
+  bunch = Array{Particle,1}(undef, nparticles)
+
+  @time Init(bunch)
+
+  @time Push(bunch, 1.0e-3, 10)
+  @time Push(bunch, 1.0e-3, 10)
+  @time Push(bunch, 1.0e-3, 10)
+  @time Push(bunch, 1.0e-3, 10)
+  @time Push(bunch, 1.0e-3, 10)
+
+  #println("time = ",0.1 )
+  #for part in bunch; println(part.pos); end
+end
