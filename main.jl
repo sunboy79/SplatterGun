@@ -36,15 +36,30 @@ function Axis(x1::Real, x2::Real, nx::Integer)
   return xx
 end
 
-nx = 20; ny = 20; nz = 20
+function PrintAxis(io::IOStream, axis::Array{Real})
+  str = summary(axis)*": "
+  for val in axis; str *= string(val, " "); end
+  str *= "\n"
+  write(io, str)
+end
 
-xaxis = Axis(-5.0,5.0,nx)
+function PrintMesh(io::IOStream, mesh::Mesh)
+  PrintAxis(io, mesh.xaxis)
+  PrintAxis(io, mesh.yaxis)
+  PrintAxis(io, mesh.zaxis)
+end
+
+nx = 40; ny = 20; nz = 12
+
+xaxis = Axis(-10.0,10.0,nx)
 yaxis = Axis(-5.0,5.0,ny)
-zaxis = Axis(-5.0,5.0,nz)
+zaxis = Axis(-1.0,5.0,nz)
 
 mesh = Mesh(xaxis, yaxis, zaxis)
 
-println(mesh)
+io = open("mesh.txt", "w")
+PrintMesh(io, mesh)
+close(io)
 
 doParticles = false
 
@@ -60,6 +75,4 @@ if doParticles
   @time Push(bunch, 1.0e-3, 10)
   @time Push(bunch, 1.0e-3, 10)
 
-  #println("time = ",0.1 )
-  #for part in bunch; println(part.pos); end
 end
