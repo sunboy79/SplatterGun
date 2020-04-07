@@ -52,8 +52,8 @@ end
 nx = 40; ny = 20; nz = 12
 
 xaxis = Axis(-10.0,10.0,nx)
-yaxis = Axis(-5.0,5.0,ny)
-zaxis = Axis(-1.0,5.0,nz)
+yaxis = Axis( -5.0, 5.0,ny)
+zaxis = Axis( -1.0, 5.0,nz)
 
 mesh = Mesh(xaxis, yaxis, zaxis)
 
@@ -74,5 +74,4 @@ if doParticles
   @time Push(bunch, 1.0e-3, 10)
   @time Push(bunch, 1.0e-3, 10)
   @time Push(bunch, 1.0e-3, 10)
-
 end
